@@ -1,0 +1,27 @@
+{
+  "name": "rpg",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "start": "node app.js"
+
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rxiayth/rpg.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rxiayth/rpg/issues"
+  },
+  "homepage": "https://github.com/rxiayth/rpg#readme",
+  "dependencies": {
+    "config-ini": "^0.2.2",
+    "express": "^4.16.3",
+    "socket.io": "^2.1.0"
+  },
+  "devDependencies": {}
+}
