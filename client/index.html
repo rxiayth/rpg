@@ -5,21 +5,21 @@
      <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
       body { font: 13px Helvetica, Arial; }
-      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-      #messages { list-style-type: none; margin: 0; padding: 0; }
-      #messages li { padding: 5px 10px; }
-      #messages li:nth-child(odd) { background: #eee; }
+      #messagePanel { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+      #messagePanel input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+      #messagePanel button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      #messageInput { list-style-type: none; margin: 0; padding: 0; }
+      #messageInput li { padding: 5px 10px; }
+      #messageInput li:nth-child(odd) { background: #eee; }
     </style>
 </head>
 <body>
     <canvas id="ctx" width="800" height="800" style="border:1px solid #000000;"></canvas>
     <p id="messages" width="200", height="800" style="border:1px solid #333333;">Chat History</p>
 
-    <form action="">
-      <input id="message" autocomplete="off" /><button>Send</button>
-    </form>
+    <div id="messagePanel">
+      <input id="messageInput" autocomplete="off" /><button id="messageBtn">Send</button>
+    </div>
 
 
 
@@ -59,12 +59,29 @@
             socket.emit('keyPress',{inputId:'up',state:false});
     }
 
+    const DOM_messageInput = document.getElementById('messageInput');
+    const DOM_messageBtn = document.getElementById('messageBtn');
+    const DOM_messages = document.getElementById('messages');
 
-    document.getElementById('message').addEventListener('submit', function(e){
+
+    var clearMessage = function(){
+        DOM_messageInput.value = '';
+    }
+    
+    DOM_messageBtn.addEventListener('click', function(e){
+        var msg = DOM_messageInput.value || "";
+        console.log(msg)
+        socket.emit('chat message', msg);
+        clearMessage();
+        
         e.preventDefault();
-        socket.emit('chat message', document.getElementById('message').val());
-            document.getElementById('message').val('');
         return false;
+    });
+
+    socket.on('chat message', function(msg){
+        console.log("message received: "  + msg);
+        var formattedMessage = "\n"+ msg;
+        DOM_messages.append(formattedMessage);
     });
    
 </script>

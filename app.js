@@ -45,6 +45,8 @@ io.sockets.on('connection', function(socket){
  
     var player = Player(socket.id);
     PLAYER_LIST[socket.id] = player;
+
+    console.log(player.number + " has joined the game");
    
     socket.on('disconnect',function(){
         delete SOCKET_LIST[socket.id];
@@ -63,7 +65,7 @@ io.sockets.on('connection', function(socket){
     });
 
     socket.on('chat message', function(msg){
-	    console.log('message: ' + msg);
+        io.emit('chat message', msg);
   	});
    
    
