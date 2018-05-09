@@ -1,25 +1,30 @@
-class Player {
-	constructor(id) {
-	    this.x = 500,
-		this.y = 500,
-		this.id = id,
-		this.number = "" + Math.floor(10 * Math.random()),
-		this.pressingRight = false,
-		this.pressingLeft = false,
-		this.pressingUp = false,
-		this.pressingDown = false,
-	    this.maxSpd = 10
-	}
-	updatePosition() {
-        if(this.pressingRight)
-            this.x += this.maxSpd;
-        if(this.pressingLeft)
-            this.x -= this.maxSpd;
-        if(this.pressingUp)
-            this.y -= this.maxSpd;
-        if(this.pressingDown)
-            this.y += this.maxSpd;
+const canMove = (state) => ({
+	updatePosition: () => {
+        if(state.pressingRight)
+            state.x += state.maxSpd;
+        if(state.pressingLeft)
+            state.x -= state.maxSpd;
+        if(state.pressingUp)
+            state.y -= state.maxSpd;
+        if(state.pressingDown)
+            state.y += state.maxSpd;
     }
+})
+const Player = (id) => {
+	let state = {
+		id,
+	    x : 500,
+		y : 500,
+		number : "" + Math.floor(10 * Math.random()),
+		pressingRight : false,
+		pressingLeft : false,
+		pressingUp : false,
+		pressingDown : false,
+	    maxSpd : 10
+	}
+	
+
+    return Object.assign(state, canMove(state));
 }
 
 module.exports = Player;

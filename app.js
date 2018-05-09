@@ -23,7 +23,7 @@ io.sockets.on('connection', function(socket){
     socket.id = Math.random();
     SOCKET_LIST[socket.id] = socket;
  
-    var player = new Player(socket.id);
+    var player = Player(socket.id);
     PLAYER_LIST[socket.id] = player;
 
     var connectMessage = player.number + " has joined the game";
