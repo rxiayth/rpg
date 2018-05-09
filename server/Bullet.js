@@ -1,6 +1,6 @@
-var Entity = require(__dirname + "/Entity/Entity.js");
+// var Entity = require(__dirname + "/Entity/Entity.js");
 
-const Player = (id) => {
+const Bullet = (id) => {
 	let state = {
 		id,
 	    x : 500,
@@ -14,7 +14,7 @@ const Player = (id) => {
 	}
 	
 
-    return Object.assign(state, Entity.canMove(state));
+    return Object.assign(state);
 }
 
-module.exports = Player;
+module.exports = Bullet;
