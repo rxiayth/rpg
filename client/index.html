@@ -12,77 +12,85 @@
       #messageInput li { padding: 5px 10px; }
       #messageInput li:nth-child(odd) { background: #eee; }
     </style>
+    
 </head>
 <body>
-    <canvas id="ctx" width="800" height="800" style="border:1px solid #000000;"></canvas>
-    <p id="messages" width="200", height="800" style="border:1px solid #333333;">Chat History</p>
+    <canvas id="ctx" style="border:1px solid #999999; width:100%;"></canvas>
+    
+
+    <div id="messageWrapper" style="width:100%;  overflow-y: scroll;">
+        <textarea id="messages" rows=4 style="border:3px solid #666666; width:inherit;">Chat History</textarea>
+    </div>
 
     <div id="messagePanel">
       <input id="messageInput" autocomplete="off" /><button id="messageBtn">Send</button>
     </div>
 
 
-
-
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+<script src="./client/js/Movement.js"></script>
+
 <script>
-    var ctx = document.getElementById("ctx").getContext("2d");
+    const DOM_messageInput = document.getElementById('messageInput');
+    const DOM_messageBtn = document.getElementById('messageBtn');
+    const DOM_messages = document.getElementById('messages');
+
+
+    var ctx = document.getElementById("ctx").getContext("2d");    
+    ctx.canvas.width  = window.innerWidth;
+    ctx.canvas.height = window.innerHeight - 100;
     ctx.font = '30px Arial';
    
     var socket = io();
        
-    socket.on('newPositions',function(data){
-        ctx.clearRect(0,0,500,500);
-        for(var i = 0 ; i < data.length; i++)
-            ctx.fillText(data[i].number,data[i].x,data[i].y);      
-    });
  
-    document.onkeydown = function(event){
-        if(event.keyCode === 68)    //d
-            socket.emit('keyPress',{inputId:'right',state:true});
-        else if(event.keyCode === 83)   //s
-            socket.emit('keyPress',{inputId:'down',state:true});
-        else if(event.keyCode === 65) //a
-            socket.emit('keyPress',{inputId:'left',state:true});
-        else if(event.keyCode === 87) // w
-            socket.emit('keyPress',{inputId:'up',state:true});
-           
-    }
-    document.onkeyup = function(event){
-        if(event.keyCode === 68)    //d
-            socket.emit('keyPress',{inputId:'right',state:false});
-        else if(event.keyCode === 83)   //s
-            socket.emit('keyPress',{inputId:'down',state:false});
-        else if(event.keyCode === 65) //a
-            socket.emit('keyPress',{inputId:'left',state:false});
-        else if(event.keyCode === 87) // w
-            socket.emit('keyPress',{inputId:'up',state:false});
-    }
 
-    const DOM_messageInput = document.getElementById('messageInput');
-    const DOM_messageBtn = document.getElementById('messageBtn');
-    const DOM_messages = document.getElementById('messages');
+
+    enableMovementListener();
+ 
 
 
     var clearMessage = function(){
         DOM_messageInput.value = '';
     }
     
+    var emitMessage = function(e){
+        var msg = DOM_messageInput.value;
+        if (msg !== ""){
+            socket.emit('chat message', msg);
+            clearMessage();        
+            e.preventDefault();
+        }
+    }
+
+  
+
     DOM_messageBtn.addEventListener('click', function(e){
-        var msg = DOM_messageInput.value || "";
-        console.log(msg)
-        socket.emit('chat message', msg);
-        clearMessage();
-        
-        e.preventDefault();
-        return false;
+        emitMessage(e);
     });
 
-    socket.on('chat message', function(msg){
-        console.log("message received: "  + msg);
-        var formattedMessage = "\n"+ msg;
-        DOM_messages.append(formattedMessage);
+    DOM_messageInput.addEventListener("keyup", function(e){
+        if (e.which === 13){
+            emitMessage(e);
+        }
     });
+
+
+
+    socket.on('chat message', function(msg){
+        var formattedMessage =  msg;
+        DOM_messages.innerHTML += ('\n' + msg);
+        DOM_messages.scrollTop = DOM_messages.scrollHeight;
+    });
+
+
+    socket.on('newPositions',function(data){
+        ctx.clearRect(0,0,ctx.canvas.width,  ctx.canvas.height);
+        for(var i = 0 ; i < data.length; i++) {
+            ctx.fillText(data[i].number,data[i].x,data[i].y);      
+        }
+    });
+
    
 </script>
 
