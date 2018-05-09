@@ -24,7 +24,7 @@
 
     <div id="messagePanel">
         <div id="chatPanel" style="width:100%;  overflow-y: scroll;">
-            <textarea id="messages" rows=4 style="border:3px solid #666666; width:inherit;">Chat History</textarea>
+            <textarea disabled id="messages" rows=4 style="border:3px solid #666666; width:inherit;">Chat History</textarea>
         </div>
         <input id="messageInput" autocomplete="off" /><button id="messageBtn">Send</button>
     </div>
@@ -45,10 +45,6 @@
     ctx.font = '30px Arial';
    
     var socket = io();
-       
- 
-
-
     enableMovementListener();
  
 

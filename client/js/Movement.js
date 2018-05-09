@@ -1,6 +1,9 @@
 var addMovementListener = function(event, state){
 	document.addEventListener(event, function(e){
-		if (document.activeElement.id !== "messageInput"){
+		if (document.activeElement.id !== "messageInput" || 
+			document.activeElement.id !== "messages" ||
+			document.activeElement.id !== ""  ){
+		   
 		    if(e.keyCode === 68)    	//d
 		        socket.emit('keyPress',{inputId:'right',state:state});
 		    else if(e.keyCode === 83)   //s

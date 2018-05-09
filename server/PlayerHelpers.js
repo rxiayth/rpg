@@ -17,7 +17,7 @@ const updatePlayersPositions = (PLAYER_LIST) => {
 }
 
 const _listenToMovements = (SOCKET_LIST, PLAYER_LIST, socket, player) => {
-	 socket.on('keyPress',function(data){
+	socket.on('keyPress',function(data){
         if(data.inputId === 'left')
             player.pressingLeft = data.state;
         else if(data.inputId === 'right')

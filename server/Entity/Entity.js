@@ -11,6 +11,9 @@ const canMove = (state) => ({
     }
 })
 
+const hasPosition = (state) => {
+
+}
 module.exports = {
 	canMove
 }

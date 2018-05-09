@@ -28,7 +28,6 @@ io.sockets.on('connection', function(socket){
     PLAYER_LIST[socket.id] = player;
 
 
-
     socket.on('chat message', function(msg){
         io.emit('chat message', '[' + player.number + '] ' + msg);
   	});
