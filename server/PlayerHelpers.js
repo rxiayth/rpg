@@ -33,9 +33,10 @@ const _listenToMovements = (SOCKET_LIST, PLAYER_LIST, socket, player) => {
 // const broadcastMessage = (io, PLAYER_LIST, socket, msg) => {
 // }
 
-const createPlayer = (SOCKET_LIST, PLAYER_LIST, socket)  => {
+const createPlayer = (io, SOCKET_LIST, PLAYER_LIST, socket)  => {
 	var player = Player(socket.id);
     _listenToMovements(SOCKET_LIST, PLAYER_LIST, socket, player);
+    _connectMessage(io, player);
     return player;
 };
 
@@ -51,7 +52,7 @@ const removePlayer = (io, SOCKET_LIST, PLAYER_LIST, socket)  => {
 
 };
 
-const connectMessage = (player) => {
+const _connectMessage = (io, player) => {
 	const msg = player.number + " has joined the game";
     io.emit('chat message', msg);
 }
@@ -59,7 +60,6 @@ const connectMessage = (player) => {
 module.exports = {
 	createPlayer,  
 	removePlayer,
-	connectMessage,
 	updatePlayersPositions
 	// broadcastMessage
 

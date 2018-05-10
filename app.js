@@ -24,7 +24,7 @@ io.sockets.on('connection', function(socket){
     SOCKET_LIST[socket.id] = socket;
     // todo: check if socketId is unique
 
-    var player = PlayerHelpers.createPlayer(SOCKET_LIST, PLAYER_LIST, socket);
+    var player = PlayerHelpers.createPlayer(io, SOCKET_LIST, PLAYER_LIST, socket);
     PLAYER_LIST[socket.id] = player;
 
 
