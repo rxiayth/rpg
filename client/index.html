@@ -2,31 +2,17 @@
 <html>
 <head>
     <title>RPG</title>
-     <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { font: 13px Helvetica, Arial; }
+    <link href="./client/style.css" rel="stylesheet" type="text/css" />
 
-      
-      #messagePanel { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-      #messagePanel input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-      #messagePanel button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-      #messageInput { list-style-type: none; margin: 0; padding: 0; }
-      #messageInput li { padding: 5px 10px; }
-      #messageInput li:nth-child(odd) { background: #eee; }
-    </style>
-    
 </head>
 <body>
-    <canvas id="ctx" style="border:1px solid #999999; width:100%;"></canvas>
+    <canvas id="ctx" style="border:5px solid teal; width:100%;"></canvas>
     
-
-    
-
     <div id="messagePanel">
-        <div id="chatPanel" style="width:100%;  overflow-y: scroll;">
-            <textarea disabled id="messages" rows=4 style="border:3px solid #666666; width:inherit;">Chat History</textarea>
+        <div id="chatPanel">
+            <textarea disabled id="messages" rows=4>Chat History</textarea>
         </div>
-        <input id="messageInput" autocomplete="off" /><button id="messageBtn">Send</button>
+        <input id="messageInput"/><button id="messageBtn">Send</button>
     </div>
 
 

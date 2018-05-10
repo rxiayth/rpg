@@ -1,0 +1,38 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font: 13px Helvetica, Arial; }
+
+
+#messagePanel { 
+	padding: 3px;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+}
+
+#messagePanel input { border: 0;
+	border: 3px solid rgb(102, 204, 255);
+	padding: 8px;
+	width: 90%;
+	margin-right: .5%;
+}
+#messagePanel button { width: 9%;
+	background: teal;
+	border: none;
+	padding: 10px;
+}
+#messageInput { 
+	border: 3px solid rgb(102, 204, 255);
+	margin: 0; 
+	padding: 0; 
+}
+
+
+#chatPanel{
+	width:100%;  
+	overflow-y: scroll;>
+}
+
+#chatPanel textarea {
+	border:3px solid rgb(102, 204, 255); 
+	width:inherit;
+}
