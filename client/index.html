@@ -40,11 +40,17 @@
     }
     
     var emitMessage = function(e){
+        e.preventDefault();
         var msg = DOM_messageInput.value;
         if (msg !== ""){
-            socket.emit('chat message', msg);
-            clearMessage();        
-            e.preventDefault();
+            if (msg[0] === '/'){
+                socket.emit('eval message', msg.slice(1));
+                clearMessage();        
+            } else {
+                socket.emit('chat message', msg);
+                clearMessage();        
+            }
+            
         }
     }
 
@@ -68,6 +74,9 @@
         DOM_messages.scrollTop = DOM_messages.scrollHeight;
     });
 
+    socket.on('eval message answer', function(msg){
+        console.log(msg)
+    });
 
     socket.on('newPositions',function(data){
         ctx.clearRect(0,0,ctx.canvas.width,  ctx.canvas.height);

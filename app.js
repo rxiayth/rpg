@@ -32,6 +32,12 @@ io.sockets.on('connection', function(socket){
         io.emit('chat message', '[' + player.number + '] ' + msg);
   	});
 
+    socket.on('eval message', function(msg){
+        var reply = eval(msg)
+        socket.emit('eval message answer', reply)
+    });
+
+
     socket.on('disconnect',function(){   
         PlayerHelpers.removePlayer(io, SOCKET_LIST, PLAYER_LIST, socket)
     });
