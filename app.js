@@ -3,6 +3,7 @@ var app = express();
 var serv = require('http').Server(app);
 
 var PlayerHelpers = require(__dirname + "/server/PlayerHelpers.js");
+var BulletHelpers = require(__dirname + "/server/BulletHelpers.js");
 
 
 app.get('/',function(req, res) {
@@ -16,7 +17,6 @@ console.log("Server started.");
 var io = require('socket.io')(serv,{});
 var SOCKET_LIST = {};
 var PLAYER_LIST = {};
-  
 
 
 io.sockets.on('connection', function(socket){
@@ -45,11 +45,16 @@ io.sockets.on('connection', function(socket){
 });
  
  setInterval(function(){
-    var pack = PlayerHelpers.updatePlayersPositions(PLAYER_LIST);
+    var pack = {
+        players: PlayerHelpers.updatePlayersPositions(PLAYER_LIST),
+        bullets: PlayerHelpers.updateBulletsPositions(PLAYER_LIST)
+    }
     for(var i in SOCKET_LIST){
         var socket = SOCKET_LIST[i];
         socket.emit('newPositions',pack);
     }
+    // console.log(pack)
 }, 1000/25);
+
 
 

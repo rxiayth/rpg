@@ -17,7 +17,7 @@
 
 
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
-<script src="./client/js/Movement.js"></script>
+<script src="./client/js/KeyListener.js"></script>
 
 <script>
     const DOM_messageInput = document.getElementById('messageInput');
@@ -31,7 +31,8 @@
     ctx.font = '30px Arial';
    
     var socket = io();
-    enableMovementListener();
+    enableKeyListener();
+
  
 
 
@@ -54,7 +55,6 @@
         }
     }
 
-  
 
     DOM_messageBtn.addEventListener('click', function(e){
         emitMessage(e);
@@ -79,11 +79,22 @@
     });
 
     socket.on('newPositions',function(data){
+        
         ctx.clearRect(0,0,ctx.canvas.width,  ctx.canvas.height);
-        for(var i = 0 ; i < data.length; i++) {
-            ctx.fillText(data[i].number,data[i].x,data[i].y);      
+        for(var i = 0 ; i < data.players.length; i++) {
+            ctx.fillText(data.players[i].number,data.players[i].x,data.players[i].y);
         }
+        for(var i = 0 ; i < data.bullets.length; i++) {
+            ctx.fillRect(data.bullets[i].x-5,data.bullets[i].y-5,10,10);     
+        }
+
+
     });
+
+           
+        
+
+
 
    
 </script>

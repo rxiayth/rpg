@@ -10,11 +10,15 @@ const Player = (id) => {
 		pressingLeft : false,
 		pressingUp : false,
 		pressingDown : false,
-	    maxSpd : 10
+		pressingAttack: false,
+		mouseAngle: 0,
+	    maxSpd : 10,
+	    BULLET_LIST : {}
+
 	}
 	
 
-    return Object.assign(state, Entity.canMove(state));
+    return Object.assign(state, Entity.canMove(state), Entity.canAttack(state));
 }
 
 module.exports = Player;

@@ -1,20 +1,21 @@
-// var Entity = require(__dirname + "/Entity/Entity.js");
+var Entity = require(__dirname + "/Entity/Entity.js");
+var BulletHelpers = require(__dirname + "/BulletHelpers.js");
 
-const Bullet = (id) => {
+const Bullet = (player, angle) => {
 	let state = {
-		id,
-	    x : 500,
-		y : 500,
-		number : "" + Math.floor(10 * Math.random()),
-		pressingRight : false,
-		pressingLeft : false,
-		pressingUp : false,
-		pressingDown : false,
-	    maxSpd : 10
+		id: Math.random(),
+	    x : player.x,
+		y : player.y,
+		angle: angle,
+	    maxSpd : 10,
+	    spdX : Math.cos(angle/180*Math.PI) * 10,
+    	spdY : Math.sin(angle/180*Math.PI) * 10,
+    	timer : 0,
+    	toRemove : false
+
 	}
 	
-
-    return Object.assign(state);
+    return Object.assign(state, BulletHelpers.canUpdateBulletsPositions(state), BulletHelpers.canSelfRemove(state), Entity.canMove(state));
 }
 
 module.exports = Bullet;

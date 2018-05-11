@@ -11,9 +11,22 @@ const canMove = (state) => ({
     }
 })
 
+
+const canAttack = (state) => ({
+	shootBullet: () => {
+		var b = Bullet(angle);
+		b.x = state.x
+		b.y = state.y
+	}
+})
+
+
+
 const hasPosition = (state) => {
 
 }
 module.exports = {
-	canMove
+	canMove,
+	canAttack
+
 }
