@@ -67,6 +67,7 @@ const _listenToMovements = (SOCKET_LIST, PLAYER_LIST, socket, player) => {
         	player.pressingAttack = false;
         	console.log('bullet', bullet)
         	bullet.selfRemove();
+
         }
     });
 }

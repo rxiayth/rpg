@@ -24,10 +24,6 @@ const canUpdateBulletsPositions = (BULLETS_LIST) => {
 	}
 };
 
-
-
-
-
 // update = function(){
 //         if(self.timer++ > 100)
 //             self.toRemove = true;
