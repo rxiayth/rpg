@@ -6,23 +6,39 @@
 
 </head>
 <body>
-    <canvas id="ctx" style="border:5px solid teal; width:100%;"></canvas>
-    
-    <div id="messagePanel">
-        <div id="chatPanel">
-            <textarea disabled id="messages" rows=4>Chat History</textarea>
+    <div id='login'>
+        Username: <input id="username" type='text'></input>
+        Password: <input id="password" type='password'></input>
+        <button id="signIn">Sign In</button>
+        <button id="signUp">Sign Up</button>
+    </div>
+
+    <div id="game" style="display:none;">
+        <canvas id="ctx" style="border:5px solid teal; width:100%;"></canvas>
+        
+        <div id="messagePanel">
+            <div id="chatPanel">
+                <textarea disabled id="messages" rows=4>Chat History</textarea>
+            </div>
+            <input id="messageInput"/><button id="messageBtn">Send</button>
         </div>
-        <input id="messageInput"/><button id="messageBtn">Send</button>
     </div>
 
 
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
-<script src="./client/js/Movement.js"></script>
+<script src="./client/js/KeyListener.js"></script>
 
 <script>
     const DOM_messageInput = document.getElementById('messageInput');
     const DOM_messageBtn = document.getElementById('messageBtn');
     const DOM_messages = document.getElementById('messages');
+
+    const DOM_login = document.getElementById('login')
+    const DOM_game = document.getElementById('game')
+    const DOM_username = document.getElementById('username')
+    const DOM_password = document.getElementById('password')
+    const DOM_signIn = document.getElementById('signIn')
+    const DOM_signUp = document.getElementById('signUp')
 
 
     var ctx = document.getElementById("ctx").getContext("2d");    
@@ -31,8 +47,32 @@
     ctx.font = '30px Arial';
    
     var socket = io();
-    enableMovementListener();
+    enableKeyListener();
+
+    DOM_signIn.addEventListener("click", function(){
+        socket.emit( 'signIn', {'username': DOM_username.value, 'password': DOM_password.value});
+    })
+
+    DOM_signUp.addEventListener("click", function(){
+        socket.emit( 'signUp', {'username': DOM_username.value, 'password': DOM_password.value});
+    })
+
+    socket.on('signInResponse', function(data){
+        if (data.success){
+            DOM_login.style.display="none";
+            DOM_game.style.display="inline-block";
+        } else {
+            alert("Sign in unsuccessful.");
+        }
+    })
  
+    socket.on('signUpResponse', function(data){
+        if (data.success){
+            alert("Sign up successful, try sign in now")
+        } else {
+            alert("Sign Up Unsuccessful.");
+        }
+    })
 
 
     var clearMessage = function(){
@@ -54,7 +94,6 @@
         }
     }
 
-  
 
     DOM_messageBtn.addEventListener('click', function(e){
         emitMessage(e);
@@ -79,11 +118,22 @@
     });
 
     socket.on('newPositions',function(data){
+        
         ctx.clearRect(0,0,ctx.canvas.width,  ctx.canvas.height);
-        for(var i = 0 ; i < data.length; i++) {
-            ctx.fillText(data[i].number,data[i].x,data[i].y);      
+        for(var i = 0 ; i < data.players.length; i++) {
+            ctx.fillText(data.players[i].number,data.players[i].x,data.players[i].y);
         }
+        for(var i = 0 ; i < data.bullets.length; i++) {
+            ctx.fillRect(data.bullets[i].x-5,data.bullets[i].y-5,10,10);     
+        }
+
+
     });
+
+           
+        
+
+
 
    
 </script>

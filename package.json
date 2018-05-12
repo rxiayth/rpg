@@ -6,7 +6,6 @@
   "scripts": {
     "test": "test",
     "start": "node app.js"
-
   },
   "repository": {
     "type": "git",
@@ -21,6 +20,8 @@
   "dependencies": {
     "config-ini": "^0.2.2",
     "express": "^4.16.3",
+    "mongodb": "^3.1.0-beta4",
+    "mongojs": "^2.5.0",
     "socket.io": "^2.1.0"
   },
   "devDependencies": {}

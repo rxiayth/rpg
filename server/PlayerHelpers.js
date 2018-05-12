@@ -1,4 +1,6 @@
 var Player = require(__dirname + "/Player.js");
+var Bullet = require(__dirname + "/Bullet.js");
+var BulletHelpers = require(__dirname + "/BulletHelpers.js");
 
 
 const updatePlayersPositions = (PLAYER_LIST) => {
@@ -13,7 +15,35 @@ const updatePlayersPositions = (PLAYER_LIST) => {
 	    });    
 	}
 	return pack;
+}
+
+const updateBulletsPositions = (PLAYER_LIST) => {
+	var pack = [];
+	    for(var i in PLAYER_LIST){
+	    	var playerPack = [];
+		    var player = PLAYER_LIST[i];
+		    var bullets = player.BULLET_LIST;
+		    // console.log(player.BULLET_LIST);
+		    var playerPack = [];
+		    for (var b in bullets){
+			    // bullet.updatePosition();
+			    bullet = bullets[b]
+			    bullet.x += bullet.spdX;
+		        bullet.y += bullet.spdY;
+			    playerPack.push({
+			        x:bullet.x,
+			        y:bullet.y
+			    });    
+			}
+			pack = pack.concat(playerPack)
+			
+		}
+		    // playerPack = Bullet.updateBulletsPositions(bullets) || []; 
 		
+	// console.log(pack)
+	
+	return pack;
+
 }
 
 const _listenToMovements = (SOCKET_LIST, PLAYER_LIST, socket, player) => {
@@ -26,8 +56,19 @@ const _listenToMovements = (SOCKET_LIST, PLAYER_LIST, socket, player) => {
             player.pressingUp = data.state;
         else if(data.inputId === 'down')
             player.pressingDown = data.state;
-    });
+        else if(data.inputId === 'attack')
+            player.pressingAttack = data.state;
+        else if(data.inputId === 'mouseAngle')
+            player.mouseAngle = data.state;
 
+        if (player.pressingAttack && player.mouseAngle){
+        	var bullet = Bullet(player, player.mouseAngle);
+        	player.BULLET_LIST[Math.random()] = bullet;
+        	player.pressingAttack = false;
+        	console.log('bullet', bullet)
+        	bullet.selfRemove();
+        }
+    });
 }
 
 // const broadcastMessage = (io, PLAYER_LIST, socket, msg) => {
@@ -60,7 +101,8 @@ const _connectMessage = (io, player) => {
 module.exports = {
 	createPlayer,  
 	removePlayer,
-	updatePlayersPositions
+	updatePlayersPositions,
+	updateBulletsPositions
 	// broadcastMessage
 
 }
